@@ -1,0 +1,8 @@
+world=/root/.local/share/Terraria/Worlds/MyWorld.wld
+autocreate=1
+worldname=MyWorld
+difficulty=0
+maxplayers=3
+port=7777
+secure=1
+upnp=1
