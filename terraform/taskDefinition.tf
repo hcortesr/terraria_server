@@ -1,4 +1,4 @@
-resource "aws_ecs_task_definition" "Server_task_definition" {
+resource "aws_ecs_task_definition" "server_task_definition" {
   family = "Terraria-server"
   container_definitions = jsonencode([
     {
@@ -12,11 +12,12 @@ resource "aws_ecs_task_definition" "Server_task_definition" {
         {
           containerPort = 7777
           hostPort      = 7777
+          
         }
       ]
       mountPoints = [
       {
-        sourceVolume  = "service-storage"
+        sourceVolume  = "vol-terra"
         containerPath = "/root/.local/share/Terraria/Worlds"
       }
     ]
@@ -27,11 +28,17 @@ resource "aws_ecs_task_definition" "Server_task_definition" {
   memory    = 4096
   
   network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
   execution_role_arn = "arn:aws:iam::638668518684:role/ecsTaskExecutionRole"
+
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture = "X86_64"
+  }
+
   volume {
-    name      = "service-storage"
+    name = "vol-terra"
     configure_at_launch = true
+
   }
 
   # placement_constraints {
